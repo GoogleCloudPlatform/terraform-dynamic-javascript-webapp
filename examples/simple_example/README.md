@@ -1,6 +1,6 @@
 # Simple Example
 
-This example illustrates how to use the `dynamic-web-app` module.
+This example illustrates how to use the `dynamic-javascript-webapp` module.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs

@@ -1,4 +1,4 @@
-# terraform-google-dynamic-web-app
+# terraform-dynamic-javascript-webapp
 
 ## Description
 ### tagline
@@ -23,7 +23,7 @@ Basic usage of this module is as follows:
 
 ```hcl
 module "dynamic_web_app" {
-  source  = "terraform-google-modules/dynamic-web-app/google"
+  source  = "terraform-google-modules/dynamic-javascript-webapp/google"
   version = "~> 0.1"
 
   project_id  = "<PROJECT ID>"

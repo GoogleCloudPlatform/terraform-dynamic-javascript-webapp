@@ -1,4 +1,4 @@
-module github.com/terraform-google-modules/dynamic-web-app/test/integration
+module github.com/terraform-google-modules/dynamic-javascript-webapp/test/integration
 
 go 1.18
 

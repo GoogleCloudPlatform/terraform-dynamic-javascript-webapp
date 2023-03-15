@@ -87,22 +87,50 @@ resource "google_compute_region_network_endpoint_group" "default" {
     service = google_cloud_run_v2_service.default.name
   }
 }
-# TODO: Make into HTTPS
-# External HTTP loadbalancer
+
+### External loadbalancer ###
 resource "google_compute_global_address" "default" {
   name    = "reserved-ip"
   project = var.project_id
 }
 
+resource "google_compute_url_map" "default" {
+  name            = "https-load-balancer"
+  default_service = google_compute_backend_service.default.id
+  host_rule {
+    hosts        = ["${google_compute_global_address.default.address}"]
+    path_matcher = "ip4addr"
+  }
+  path_matcher {
+    name            = "ip4addr"
+    default_service = google_compute_backend_service.default.id
+    path_rule {
+      paths   = ["/assets/*"]
+      service = google_compute_backend_bucket.default.id
+    }
+  }
+}
+
+resource "google_compute_url_map" "https_redirect" {
+  name = "http-https-redirect"
+  default_url_redirect {
+    https_redirect         = true
+    redirect_response_code = "MOVED_PERMANENTLY_DEFAULT"
+    strip_query            = false
+  }
+}
+
 resource "google_compute_backend_service" "default" {
-  name       = "run-backend-service"
-  port_name  = "http"
-  protocol   = "HTTP"
-  enable_cdn = true
+  name                  = "run-backend-service"
+  port_name             = "http"
+  protocol              = "HTTP"
+  load_balancing_scheme = "EXTERNAL_MANAGED"
+  enable_cdn            = true
   backend {
     group = google_compute_region_network_endpoint_group.default.id
   }
   log_config {
+    enable      = true
     sample_rate = 1
   }
   cdn_policy {
@@ -125,42 +153,50 @@ resource "google_compute_backend_service" "default" {
   }
 }
 
-resource "google_compute_url_map" "default" {
-  name            = "http-lb"
-  default_service = google_compute_backend_service.default.id
-  host_rule {
-    hosts        = ["${google_compute_global_address.default.address}"]
-    path_matcher = "ip4addr"
-  }
-  path_matcher {
-    name            = "ip4addr"
-    default_service = google_compute_backend_service.default.id
-    path_rule {
-      paths   = ["/img/*"]
-      service = google_compute_backend_bucket.default.id
-    }
-  }
-}
-
 resource "google_compute_target_http_proxy" "default" {
-  name    = "http-lb-proxy"
-  url_map = google_compute_url_map.default.id
+  name    = "http-proxy"
+  url_map = google_compute_url_map.https_redirect.id
 }
 
-resource "google_compute_global_forwarding_rule" "default" {
-  name                  = "http-lb-forwarding-rule"
-  ip_protocol           = "TCP"
-  load_balancing_scheme = "EXTERNAL"
+resource "google_compute_target_https_proxy" "default" {
+  name    = "https-proxy"
+  url_map = google_compute_url_map.default.id
+
+  ssl_certificates = [google_compute_managed_ssl_certificate.default.id]
+  # certificate_map  = 
+  # ssl_policy       = 
+  # quic_override    = 
+}
+
+resource "google_compute_managed_ssl_certificate" "default" {
+  name = "test-ssl-certificate"
+
+  managed {
+    domains = ["example.com."]
+  }
+}
+
+resource "google_compute_global_forwarding_rule" "http" {
+  name                  = "http-forwarding-rule"
+  load_balancing_scheme = "EXTERNAL_MANAGED"
   port_range            = "80"
   target                = google_compute_target_http_proxy.default.id
   ip_address            = google_compute_global_address.default.id
 }
 
-# Firestore
-resource "google_firestore_database" "database" {
-  name                        = "(default)"
-  location_id                 = "nam5"
-  type                        = "FIRESTORE_NATIVE"
-  concurrency_mode            = "OPTIMISTIC"
-  app_engine_integration_mode = "DISABLED"
+resource "google_compute_global_forwarding_rule" "https" {
+  name                  = "https-forwarding-rule"
+  load_balancing_scheme = "EXTERNAL_MANAGED"
+  port_range            = "443"
+  target                = google_compute_target_https_proxy.default.id
+  ip_address            = google_compute_global_address.default.id
 }
+
+# Firestore
+# resource "google_firestore_database" "database" {
+#   name                        = "(default)"
+#   location_id                 = "nam5"
+#   type                        = "FIRESTORE_NATIVE"
+#   concurrency_mode            = "OPTIMISTIC"
+#   app_engine_integration_mode = "DISABLED"
+# }

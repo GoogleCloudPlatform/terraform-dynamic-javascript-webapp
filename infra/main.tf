@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 locals {
-  client_id    = "client_id_value"
-  nextauth_url = "nextauth_url_value"
+  nextauth_url = "http://${google_compute_global_address.default.address}"
 }
 
 # GCS bucket
@@ -51,8 +50,87 @@ resource "google_compute_backend_bucket" "default" {
     serve_while_stale = 86400
   }
 }
+# Secret Manager resources
 
-# Cloud Run service and network endpoint group
+resource "random_id" "client_secret" {
+  byte_length = 32
+}
+
+resource "random_id" "client_id" {
+  byte_length = 32
+}
+
+resource "random_id" "nextauth_secret" {
+  byte_length = 32
+}
+
+resource "google_secret_manager_secret" "client_secret" {
+  secret_id = "google-client-secret"
+  replication {
+    automatic = true
+  }
+}
+
+resource "google_secret_manager_secret_version" "client_secret" {
+  secret      = google_secret_manager_secret.client_secret.id
+  secret_data = random_id.client_secret.b64_std
+}
+
+resource "google_secret_manager_secret_iam_binding" "client_secret" {
+  secret_id = google_secret_manager_secret.client_secret.secret_id
+  role      = "roles/secretmanager.secretAccessor"
+  members = [
+    "serviceAccount:${google_service_account.cloud_run.email}",
+  ]
+}
+
+resource "google_secret_manager_secret" "client_id" {
+  secret_id = "google-client-id"
+  replication {
+    automatic = true
+  }
+}
+
+resource "google_secret_manager_secret_version" "client_id" {
+  secret      = google_secret_manager_secret.client_id.id
+  secret_data = random_id.client_id.b64_std
+}
+
+resource "google_secret_manager_secret_iam_binding" "client_id" {
+  secret_id = google_secret_manager_secret.client_id.secret_id
+  role      = "roles/secretmanager.secretAccessor"
+  members = [
+    "serviceAccount:${google_service_account.cloud_run.email}",
+  ]
+}
+
+resource "google_secret_manager_secret" "nextauth_secret" {
+  secret_id = "nextauth-secret"
+  replication {
+    automatic = true
+  }
+}
+
+resource "google_secret_manager_secret_version" "nextauth_secret" {
+  secret      = google_secret_manager_secret.nextauth_secret.id
+  secret_data = random_id.nextauth_secret.b64_std
+}
+
+resource "google_secret_manager_secret_iam_binding" "nextauth_secret" {
+  secret_id = google_secret_manager_secret.nextauth_secret.secret_id
+  role      = "roles/secretmanager.secretAccessor"
+  members = [
+    "serviceAccount:${google_service_account.cloud_run.email}",
+  ]
+}
+
+# Cloud Run service resources and network endpoint group
+
+resource "google_service_account" "cloud_run" {
+  account_id   = "cloud-run-service-account"
+  display_name = "Service account for Cloud Run."
+}
+
 resource "google_cloud_run_v2_service" "default" {
   name     = "hello"
   project  = var.project_id
@@ -63,12 +141,35 @@ resource "google_cloud_run_v2_service" "default" {
     containers {
       image = "us-docker.pkg.dev/cloudrun/container/hello"
       env {
-        name  = "GOOGLE_CLIENT_ID"
-        value = local.client_id
-      }
-      env {
         name  = "NEXTAUTH_URL"
         value = local.nextauth_url
+      }
+      env {
+        name = "GOOGLE_CLIENT_ID"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.client_id.secret_id
+            version = "latest"
+          }
+        }
+      }
+      env {
+        name = "GOOGLE_CLIENT_SECRET"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.client_secret.secret_id
+            version = "latest"
+          }
+        }
+      }
+      env {
+        name = "NEXTAUTH_SECRET"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.nextauth_secret.secret_id
+            version = "latest"
+          }
+        }
       }
       startup_probe {
         initial_delay_seconds = 0
@@ -85,6 +186,7 @@ resource "google_cloud_run_v2_service" "default" {
         }
       }
     }
+    service_account = google_service_account.cloud_run.email
   }
 }
 

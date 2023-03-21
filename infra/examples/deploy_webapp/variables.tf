@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-module "dynamic_web_app" {
-  source = "../.."
-
-  project_id  = var.project_id
-  bucket_name = var.bucket_name
+variable "project_id" {
+  description = "The ID of the project in which to provision resources."
+  type        = string
 }

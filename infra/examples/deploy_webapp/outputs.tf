@@ -14,7 +14,3 @@
  * limitations under the License.
  */
 
-output "bucket_name" {
-  description = "The name of the bucket."
-  value       = module.dynamic_web_app.bucket_name
-}

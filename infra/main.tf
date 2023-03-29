@@ -277,9 +277,9 @@ resource "google_firestore_database" "database" {
   count                       = local.firestore_enabled ? 0 : 1
   project                     = var.project_id
   name                        = "(default)"
-  location_id                 = "nam5"
+  location_id                 = var.region
   type                        = "FIRESTORE_NATIVE"
-  concurrency_mode            = "OPTIMISTIC"
+  concurrency_mode            = "PESSIMISTIC"
   app_engine_integration_mode = "DISABLED"
   depends_on = [
     time_sleep.wait_30_seconds

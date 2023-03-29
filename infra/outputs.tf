@@ -17,3 +17,8 @@
 output "frontend_url" {
   value = "http://${google_compute_global_address.default.address}/"
 }
+
+output "neos_toc_url" {
+  description = "Neos Tutorial URL"
+  value       = "http://console.cloud.google.com/welcome?walkthrough_id=panels--sic--dynamic-javascript-web-app_toc"
+}

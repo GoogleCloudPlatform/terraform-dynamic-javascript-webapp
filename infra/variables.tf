@@ -28,7 +28,7 @@ variable "enable_apis" {
 variable "initial_run_image" {
   type        = string
   description = "Initial image to deploy to Cloud Run service."
-  default     = "us-docker.pkg.dev/cloudrun/container/hello"
+  default     = "gcr.io/hsa-public/developer-journey/app"
 }
 
 variable "labels" {

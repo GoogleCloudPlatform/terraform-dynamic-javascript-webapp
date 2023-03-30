@@ -37,7 +37,7 @@ module "project_services" {
   ]
 }
 
-resource "time_sleep" "wait_30_seconds" {
+resource "time_sleep" "project_services" {
   depends_on = [
     module.project_services
   ]

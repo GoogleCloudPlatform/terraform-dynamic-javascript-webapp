@@ -77,7 +77,7 @@ resource "google_secret_manager_secret" "nextauth_secret" {
   }
   labels = var.labels
   depends_on = [
-    time_sleep.wait_30_seconds
+    time_sleep.project_services
   ]
 }
 
@@ -282,7 +282,7 @@ resource "google_firestore_database" "database" {
   concurrency_mode            = "PESSIMISTIC"
   app_engine_integration_mode = "DISABLED"
   depends_on = [
-    time_sleep.wait_30_seconds
+    time_sleep.project_services
   ]
 }
 
@@ -295,6 +295,6 @@ resource "google_artifact_registry_repository" "default" {
   format        = "DOCKER"
   labels        = var.labels
   depends_on = [
-    time_sleep.wait_30_seconds
+    time_sleep.project_services
   ]
 }

@@ -33,6 +33,7 @@ module "project_services" {
     "run.googleapis.com",
     "secretmanager.googleapis.com",
     "serviceusage.googleapis.com",
+    "sourcerepo.googleapis.com",
     "storage.googleapis.com"
   ]
 }
@@ -42,6 +43,6 @@ resource "time_sleep" "project_services" {
     module.project_services
   ]
 
-  create_duration = "30s"
+  create_duration = "45s"
 }
 

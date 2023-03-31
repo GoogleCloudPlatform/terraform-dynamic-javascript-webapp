@@ -20,7 +20,7 @@ variable "project_id" {
 }
 
 variable "enable_apis" {
-  type        = string
+  type        = bool
   description = "Whether or not to enable underlying apis in this solution."
   default     = true
 }

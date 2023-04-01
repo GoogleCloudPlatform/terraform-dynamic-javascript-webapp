@@ -18,6 +18,12 @@ output "frontend_url" {
   value = "http://${google_compute_global_address.default.address}/"
 }
 
-output "clone_app_repo_to_shell_url" {
-  value = "https://console.cloud.google.com/cloudshell/open?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FGoogleCloudPlatform%2Fdeveloper-journey-app&cloudshell_tutorial=docs%2Ftutorials%2Fsetup-cicd.md"
+output "run_service_account" {
+  description = "The email of the Cloud Run service account for the service."
+  value       = google_service_account.cloud_run.email
+}
+
+output "run_service_name" {
+  description = "The name of the deployed Cloud Run service."
+  value       = google_cloud_run_v2_service.default.name
 }

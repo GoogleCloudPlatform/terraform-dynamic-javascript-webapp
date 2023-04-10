@@ -18,9 +18,9 @@ output "frontend_url" {
   value = "http://${google_compute_global_address.default.address}/"
 }
 
-output "run_service_account" {
-  description = "The email of the Cloud Run service account for the service."
-  value       = google_service_account.cloud_run.email
+output "neos_toc_url" {
+  description = "Neos Tutorial URL"
+  value       = "http://console.cloud.google.com/welcome?walkthrough_id=panels--sic--dynamic-javascript-web-app_toc"
 }
 
 output "run_service_name" {

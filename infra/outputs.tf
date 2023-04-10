@@ -22,3 +22,8 @@ output "neos_toc_url" {
   description = "Neos Tutorial URL"
   value       = "http://console.cloud.google.com/welcome?walkthrough_id=panels--sic--dynamic-javascript-web-app_toc"
 }
+
+output "run_service_name" {
+  description = "The name of the deployed Cloud Run service."
+  value       = google_cloud_run_v2_service.default.name
+}

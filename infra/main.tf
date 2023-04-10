@@ -77,7 +77,7 @@ resource "google_secret_manager_secret" "nextauth_secret" {
   }
   labels = var.labels
   depends_on = [
-    time_sleep.wait_30_seconds
+    time_sleep.project_services
   ]
 }
 
@@ -277,24 +277,11 @@ resource "google_firestore_database" "database" {
   count                       = local.firestore_enabled ? 0 : 1
   project                     = var.project_id
   name                        = "(default)"
-  location_id                 = var.region
+  location_id                 = "nam5"
   type                        = "FIRESTORE_NATIVE"
   concurrency_mode            = "PESSIMISTIC"
   app_engine_integration_mode = "DISABLED"
   depends_on = [
-    time_sleep.wait_30_seconds
-  ]
-}
-
-### Artifact Registry ###
-resource "google_artifact_registry_repository" "default" {
-  project       = var.project_id
-  location      = var.region
-  repository_id = "${var.deployment_name}-repo"
-  description   = "Dev journey artifact registry repo."
-  format        = "DOCKER"
-  labels        = var.labels
-  depends_on = [
-    time_sleep.wait_30_seconds
+    time_sleep.project_services
   ]
 }

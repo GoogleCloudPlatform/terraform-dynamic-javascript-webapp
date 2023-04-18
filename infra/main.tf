@@ -15,7 +15,7 @@
  */
 locals {
   nextauth_url      = "http://${google_compute_global_address.default.address}"
-  firestore_enabled = true
+  firestore_enabled = false
 }
 
 ### GCS bucket ###

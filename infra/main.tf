@@ -15,7 +15,7 @@
  */
 locals {
   nextauth_url      = "http://${google_compute_global_address.default.address}"
-  firestore_enabled = false
+  firestore_enabled = length(data.google_cloud_asset_resources_search_all.firestore_database.results) == 1 ? true : false
 }
 
 ### GCS bucket ###
@@ -273,6 +273,15 @@ resource "google_compute_global_forwarding_rule" "http" {
 }
 
 ### Firestore ###
+
+# The following checks Asset Inventory for an existing Firestore database
+data "google_cloud_asset_resources_search_all" "firestore_database" {
+  provider = google-beta
+  scope    = "projects/${var.project_id}"
+  asset_types = [
+    "firestore.googleapis.com/Database"
+  ]
+}
 
 # If a Firestore database exists on the project, Terraform will skip this resource
 resource "google_firestore_database" "database" {

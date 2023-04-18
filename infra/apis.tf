@@ -44,3 +44,11 @@ resource "time_sleep" "project_services" {
   create_duration = "45s"
 }
 
+resource "time_sleep" "cloud_run_v2_service" {
+  depends_on = [ 
+    google_cloud_run_v2_service.default
+  ]
+  
+  create_duration = "45s"
+}
+

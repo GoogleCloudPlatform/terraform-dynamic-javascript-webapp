@@ -8,6 +8,14 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 This changelog is generated automatically based on [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
+## [1.0.1](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/compare/v1.0.0...v1.0.1) (2023-04-18)
+
+
+### Bug Fixes
+
+* flip firestore_enabled ([1c8b545](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/1c8b545276c978384812654240a6fcad739a235d))
+* remove beta resource, add in missing env for cloud run container ([a7b52c6](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/a7b52c638513631ed2a40bd895aa3525f4918de1))
+
 ## 1.0.0 (2023-04-12)
 
 

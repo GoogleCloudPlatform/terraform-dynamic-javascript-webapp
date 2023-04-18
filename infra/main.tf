@@ -61,6 +61,10 @@ resource "google_compute_backend_bucket" "default" {
     negative_caching  = true
     serve_while_stale = 86400
   }
+  depends_on = [
+    time_sleep.project_services,
+    time_sleep.cloud_run_v2_service
+  ]
 }
 
 ### Secret Manager resources ###
@@ -125,6 +129,10 @@ resource "google_cloud_run_v2_service" "default" {
     containers {
       image = var.initial_run_image
       env {
+        name  = "PROJECT_ID"
+        value = var.project_id
+      }
+      env {
         name = "NEXTAUTH_SECRET"
         value_source {
           secret_key_ref {
@@ -185,6 +193,9 @@ resource "google_compute_region_network_endpoint_group" "default" {
   cloud_run {
     service = google_cloud_run_v2_service.default.name
   }
+  depends_on = [
+    time_sleep.project_services
+  ]
 }
 
 ### External loadbalancer ###

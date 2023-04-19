@@ -1,5 +1,7 @@
-# These owners will be the default owners for everything in
-# the repo. Unless a later match takes precedence,
-# global owners will be requested for
-# review when someone opens a pull request.
-*  @GoogleCloudPlatform/developer-journey-app-approvers @GoogleCloudPlatform/torus-dpe
+# This file controls who is tagged for review for any given pull request.
+#
+# For syntax help see:
+# https://help.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners#codeowners-syntax
+
+* @GoogleCloudPlatform/developer-journey-app-approvers
+* @GoogleCloudPlatform/torus-dpe

@@ -8,6 +8,18 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 This changelog is generated automatically based on [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
+## [1.1.0](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/compare/v1.0.1...v1.1.0) (2023-04-19)
+
+
+### Features
+
+* adding maintenance items ([0de8607](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/0de8607c038988aa4d3f334700262d3c8556016d))
+
+
+### Bug Fixes
+
+* yaml file type fix ([f8a997c](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/f8a997c4db05aa538a9c28173111d354f1b33863))
+
 ## [1.0.1](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/compare/v1.0.0...v1.0.1) (2023-04-18)
 
 

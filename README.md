@@ -14,7 +14,19 @@ The resources/services/activations/deletions that this module will create/trigge
 ### PreDeploy
 To deploy this blueprint you must have an active billing account and billing permissions.
 
+
 ## Documentation
+
+Upon successful provisioning, you should see an output similar to:
+
+```bash
+frontend_url = "http://11.222.333.444/"
+neos_toc_url = "http://console.cloud.google.com/welcome?walkthrough_id=panels--sic--dynamic-javascript-web-app_toc"
+run_service_name = "dev-journey"
+```
+
+Note that when you initially open the given IP address (`frontend_url`) from the load balancer, 
+you may have to wait around 5 minutes for your app to appear.
 
 ## Usage
 

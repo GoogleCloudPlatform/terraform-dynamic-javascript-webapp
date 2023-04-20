@@ -146,10 +146,10 @@ resource "google_cloud_run_v2_service" "default" {
         value = local.nextauth_url
       }
       startup_probe {
-        initial_delay_seconds = 0
-        timeout_seconds       = 1
-        period_seconds        = 3
-        failure_threshold     = 1
+        initial_delay_seconds = 45
+        timeout_seconds       = 65
+        period_seconds        = 5
+        failure_threshold     = 5
         tcp_socket {
           port = 8080
         }
@@ -183,6 +183,9 @@ resource "google_cloud_run_service_iam_policy" "noauth" {
   service  = google_cloud_run_v2_service.default.name
 
   policy_data = data.google_iam_policy.noauth.policy_data
+  depends_on = [
+    time_sleep.cloud_run_v2_service
+  ]
 }
 
 resource "google_compute_region_network_endpoint_group" "default" {
@@ -194,7 +197,8 @@ resource "google_compute_region_network_endpoint_group" "default" {
     service = google_cloud_run_v2_service.default.name
   }
   depends_on = [
-    time_sleep.project_services
+    time_sleep.project_services,
+    time_sleep.cloud_run_v2_service
   ]
 }
 
@@ -220,6 +224,9 @@ resource "google_compute_url_map" "default" {
       service = google_compute_backend_bucket.default.id
     }
   }
+  depends_on = [
+    time_sleep.cloud_run_v2_service
+  ]
 }
 
 resource "google_compute_backend_service" "default" {

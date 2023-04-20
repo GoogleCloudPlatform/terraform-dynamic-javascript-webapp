@@ -49,5 +49,5 @@ resource "time_sleep" "cloud_run_v2_service" {
     google_cloud_run_v2_service.default
   ]
   
-  create_duration = "60s"
+  create_duration = "45s"
 }

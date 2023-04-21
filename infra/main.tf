@@ -106,13 +106,14 @@ resource "google_secret_manager_secret_iam_binding" "nextauth_secret" {
 }
 
 ### Cloud Run service resources and network endpoint group ###
-
+#### Service Account 
 resource "google_service_account" "cloud_run" {
   project      = var.project_id
-  account_id   = "sa-run"
-  display_name = "Service account for ${var.deployment_name} Cloud Run service."
+  account_id   = "cloud-run-service-account"
+  display_name = "${var.deployment_name} Cloud Run service Service Account."
 }
 
+#### Cloud Run IAM
 resource "google_project_iam_member" "run_datastore_owner" {
   project = var.project_id
   role    = "roles/datastore.owner"

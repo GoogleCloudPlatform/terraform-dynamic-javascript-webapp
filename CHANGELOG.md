@@ -8,6 +8,13 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 This changelog is generated automatically based on [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
+## [1.1.2](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/compare/v1.1.1...v1.1.2) (2023-04-21)
+
+
+### Bug Fixes
+
+* shortening account_id name for service account to fit regex max length ([18b0b19](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/18b0b192346789ebd311b791a63aa0c9b24e8edc))
+
 ## [1.1.1](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/compare/v1.1.0...v1.1.1) (2023-04-20)
 
 

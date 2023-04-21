@@ -106,13 +106,14 @@ resource "google_secret_manager_secret_iam_binding" "nextauth_secret" {
 }
 
 ### Cloud Run service resources and network endpoint group ###
-
+#### Service Account 
 resource "google_service_account" "cloud_run" {
   project      = var.project_id
-  account_id   = "sa-run"
-  display_name = "Service account for ${var.deployment_name} Cloud Run service."
+  account_id   = "cloud-run-service-account"
+  display_name = "${var.deployment_name} Cloud Run service Service Account."
 }
 
+#### Cloud Run IAM
 resource "google_project_iam_member" "run_datastore_owner" {
   project = var.project_id
   role    = "roles/datastore.owner"
@@ -144,20 +145,6 @@ resource "google_cloud_run_v2_service" "default" {
       env {
         name  = "NEXTAUTH_URL"
         value = local.nextauth_url
-      }
-      startup_probe {
-        initial_delay_seconds = 45
-        timeout_seconds       = 65
-        period_seconds        = 5
-        failure_threshold     = 5
-        tcp_socket {
-          port = 8080
-        }
-      }
-      liveness_probe {
-        http_get {
-          path = "/"
-        }
       }
     }
     service_account = google_service_account.cloud_run.email

@@ -145,20 +145,6 @@ resource "google_cloud_run_v2_service" "default" {
         name  = "NEXTAUTH_URL"
         value = local.nextauth_url
       }
-      startup_probe {
-        initial_delay_seconds = 45
-        timeout_seconds       = 65
-        period_seconds        = 5
-        failure_threshold     = 5
-        tcp_socket {
-          port = 8080
-        }
-      }
-      liveness_probe {
-        http_get {
-          path = "/"
-        }
-      }
     }
     service_account = google_service_account.cloud_run.email
   }

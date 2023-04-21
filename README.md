@@ -21,7 +21,7 @@ Upon successful provisioning, you should see an output similar to:
 
 ```bash
 frontend_url = "http://11.222.333.444/"
-neos_toc_url = "http://console.cloud.google.com/welcome?walkthrough_id=panels--sic--dynamic-javascript-web-app_toc"
+neos_toc_url = "http://console.cloud.google.com?walkthrough_id=panels--sic--dynamic-javascript-web-app_toc"
 run_service_name = "dev-journey"
 ```
 

@@ -1,21 +1,32 @@
 # terraform-dynamic-javascript-webapp
 
 ## Description
-### tagline
+### Tagline
 This is an auto-generated module.
 
-### detailed
+### Detailed
 This module was generated from [terraform-google-module-template](https://github.com/terraform-google-modules/terraform-google-module-template/), which by default generates a module that simply creates a GCS bucket. As the module develops, this README should be updated.
 
 The resources/services/activations/deletions that this module will create/trigger are:
 
 - Create a GCS bucket with the provided name
 
-### preDeploy
+### PreDeploy
 To deploy this blueprint you must have an active billing account and billing permissions.
 
+
 ## Documentation
-- [Hosting a Static Website](https://cloud.google.com/storage/docs/hosting-static-website)
+
+Upon successful provisioning, you should see an output similar to:
+
+```bash
+frontend_url = "http://11.222.333.444/"
+neos_toc_url = "http://console.cloud.google.com?walkthrough_id=panels--sic--dynamic-javascript-web-app_toc"
+run_service_name = "dev-journey"
+```
+
+Note that when you initially open the given IP address (`frontend_url`) from the load balancer, 
+you may have to wait around 5 minutes for your app to appear.
 
 ## Usage
 
@@ -25,9 +36,7 @@ Basic usage of this module is as follows:
 module "dynamic_web_app" {
   source  = "terraform-google-modules/dynamic-javascript-webapp/google"
   version = "~> 0.1"
-
   project_id  = "<PROJECT ID>"
-  bucket_name = "gcs-test-bucket"
 }
 ```
 
@@ -39,14 +48,21 @@ Functional examples are included in the
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| bucket\_name | The name of the bucket to create | `string` | n/a | yes |
 | project\_id | The project ID to deploy to | `string` | n/a | yes |
+| enable\_apis | Whether or not to enable underlying apis in this solution | `bool` | true | no |
+| initial\_run\_image | Initial image to deploy to Cloud Run service. | `string` | gcr.io/hsa-public/developer-journey/app | no |
+| labels | A set of key/value label pairs to assign to the resources deployed by this solution. | `map(string)` | n/a | no |
+| deployment\_name | The project ID to deploy to | `string` | dev-journey | no |
+| region | Google Cloud region  | `string` | us-central1 | no |
+| zone | Google Cloud zone | `string` | us-central1-a | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| bucket\_name | Name of the bucket |
+| frontend\_url | IP Address of Load Balancer |
+| neos\_toc_url | Neos Tutorial URL |
+| run\_service\_name | The name of the deployed Cloud Run service |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
@@ -66,7 +82,10 @@ The following dependencies must be available:
 A service account with the following roles must be used to provision
 the resources of this module:
 
-- Storage Admin: `roles/storage.admin`
+- Datastore Owner: `roles/datastore.owner`
+- Cloud Run Invoker: `roles/run.invoker`
+- Storage Object Viewer: `roles/storage.objectViewer`
+- Secret Manager: `roles/secretmanager.secretAccessor`
 
 The [Project Factory module][project-factory-module] and the
 [IAM module][iam-module] may be used in combination to provision a
@@ -77,7 +96,16 @@ service account with the necessary roles applied.
 A project with the following APIs enabled must be used to host the
 resources of this module:
 
-- Google Cloud Storage JSON API: `storage-api.googleapis.com`
+- Google Cloud Asset API: `cloudasset.googleapis.com`
+- Google Cloud Build API: `cloudbuild.googleapis.com`
+- Google Cloud Resource Manager API: `cloudresourcemanager.googleapis.com`
+- Google Cloud Compute API: `compute.googleapis.com`
+- Google Cloud Firestore API: `firestore.googleapis.com`
+- Google Cloud IAM API: `iam.googleapis.com`
+- Google Cloud Run API: `run.googleapis.com`
+- Google Cloud Secret Manager API: `secretmanager.googleapis.com`
+- Google Cloud Service Usage API: `serviceusage.googleapis.com`
+- Google Cloud Storage JSON API: `storage.googleapis.com`
 
 The [Project Factory module][project-factory-module] can be used to
 provision a project with the necessary APIs enabled.

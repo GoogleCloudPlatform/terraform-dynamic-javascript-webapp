@@ -20,8 +20,8 @@ output "frontend_url" {
 }
 
 output "neos_toc_url" {
-  description = "Neos Tutorial URL"
-  value       = "http://console.cloud.google.com?walkthrough_id=panels--sic--dynamic-javascript-web-app_toc"
+  description = "Tutorial URL"
+  value       = "https://pantheon.corp.google.com?walkthrough_id=solutions-in-console--dynamic-javascript-webapp--dynamic-javascript-webapp_simple"
 }
 
 output "run_service_name" {

@@ -15,9 +15,16 @@
  */
 
 output "frontend_url" {
+  description = "IP address to site. Load balancer expected to take ~5 minutes for it to warm up."
   value = "http://${google_compute_global_address.default.address}/"
 }
 
-output "clone_app_repo_to_shell_url" {
-  value = "https://console.cloud.google.com/cloudshell/open?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2FGoogleCloudPlatform%2Fdeveloper-journey-app&cloudshell_tutorial=docs%2Ftutorials%2Fsetup-cicd.md"
+output "neos_toc_url" {
+  description = "Neos Tutorial URL"
+  value       = "http://console.cloud.google.com?walkthrough_id=panels--sic--dynamic-javascript-web-app_toc"
+}
+
+output "run_service_name" {
+  description = "The name of the deployed Cloud Run service."
+  value       = google_cloud_run_v2_service.default.name
 }

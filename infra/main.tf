@@ -61,6 +61,10 @@ resource "google_compute_backend_bucket" "default" {
     negative_caching  = true
     serve_while_stale = 86400
   }
+  depends_on = [
+    time_sleep.project_services,
+    time_sleep.cloud_run_v2_service
+  ]
 }
 
 ### Secret Manager resources ###
@@ -102,13 +106,14 @@ resource "google_secret_manager_secret_iam_binding" "nextauth_secret" {
 }
 
 ### Cloud Run service resources and network endpoint group ###
-
+#### Service Account 
 resource "google_service_account" "cloud_run" {
   project      = var.project_id
-  account_id   = "${var.deployment_name}-run"
-  display_name = "Service account for ${var.deployment_name} Cloud Run service."
+  account_id   = "cloud-run-service-account"
+  display_name = "${var.deployment_name} Cloud Run service Service Account."
 }
 
+#### Cloud Run IAM
 resource "google_project_iam_member" "run_datastore_owner" {
   project = var.project_id
   role    = "roles/datastore.owner"
@@ -125,6 +130,10 @@ resource "google_cloud_run_v2_service" "default" {
     containers {
       image = var.initial_run_image
       env {
+        name  = "PROJECT_ID"
+        value = var.project_id
+      }
+      env {
         name = "NEXTAUTH_SECRET"
         value_source {
           secret_key_ref {
@@ -136,20 +145,6 @@ resource "google_cloud_run_v2_service" "default" {
       env {
         name  = "NEXTAUTH_URL"
         value = local.nextauth_url
-      }
-      startup_probe {
-        initial_delay_seconds = 0
-        timeout_seconds       = 1
-        period_seconds        = 3
-        failure_threshold     = 1
-        tcp_socket {
-          port = 8080
-        }
-      }
-      liveness_probe {
-        http_get {
-          path = "/"
-        }
       }
     }
     service_account = google_service_account.cloud_run.email
@@ -175,6 +170,9 @@ resource "google_cloud_run_service_iam_policy" "noauth" {
   service  = google_cloud_run_v2_service.default.name
 
   policy_data = data.google_iam_policy.noauth.policy_data
+  depends_on = [
+    time_sleep.cloud_run_v2_service
+  ]
 }
 
 resource "google_compute_region_network_endpoint_group" "default" {
@@ -185,6 +183,10 @@ resource "google_compute_region_network_endpoint_group" "default" {
   cloud_run {
     service = google_cloud_run_v2_service.default.name
   }
+  depends_on = [
+    time_sleep.project_services,
+    time_sleep.cloud_run_v2_service
+  ]
 }
 
 ### External loadbalancer ###
@@ -209,6 +211,9 @@ resource "google_compute_url_map" "default" {
       service = google_compute_backend_bucket.default.id
     }
   }
+  depends_on = [
+    time_sleep.cloud_run_v2_service
+  ]
 }
 
 resource "google_compute_backend_service" "default" {
@@ -277,79 +282,12 @@ resource "google_firestore_database" "database" {
   count                       = local.firestore_enabled ? 0 : 1
   project                     = var.project_id
   name                        = "(default)"
-  location_id                 = var.region
+  location_id                 = "nam5"
   type                        = "FIRESTORE_NATIVE"
   concurrency_mode            = "PESSIMISTIC"
   app_engine_integration_mode = "DISABLED"
   depends_on = [
-    time_sleep.project_services
+    time_sleep.project_services,
+    time_sleep.load_balancer_warm_up_time
   ]
-}
-
-### Artifact Registry ###
-resource "google_artifact_registry_repository" "default" {
-  project       = var.project_id
-  location      = var.region
-  repository_id = "${var.deployment_name}-repo"
-  description   = "Dev journey artifact registry repo."
-  format        = "DOCKER"
-  labels        = var.labels
-  depends_on = [
-    time_sleep.project_services
-  ]
-}
-
-# Placeholder Cloud Source Repo
-resource "google_sourcerepo_repository" "default" {
-  project = var.project_id
-  name    = "${var.deployment_name}-placeholder"
-  depends_on = [
-    time_sleep.project_services
-  ]
-}
-
-# Cloud Build Trigger
-
-resource "google_cloudbuild_trigger" "app_new_build" {
-  project     = var.project_id
-  name        = "${var.deployment_name}-new-build"
-  filename    = "build/app-build.cloudbuild.yaml"
-  description = "Initiates new build of ${var.deployment_name}. Triggers by changes to app on main branch of source repo."
-  included_files = [
-    "src/*",
-  ]
-  trigger_template {
-    repo_name   = google_sourcerepo_repository.default.name
-    branch_name = "main"
-  }
-  substitutions = {
-    _AR_REPO = "${google_artifact_registry_repository.default.location}-docker.pkg.dev/${google_artifact_registry_repository.default.project}/${google_artifact_registry_repository.default.name}/app"
-  }
-}
-
-resource "google_pubsub_topic" "gcr" {
-  project  = var.project_id
-  name     = "gcr"
-}
-resource "google_cloudbuild_trigger" "app_deploy" {
-  project     = var.project_id
-  name        = "${var.deployment_name}-app-deploy"
-  description = "Triggers on any new website build to Artifact Registry."
-  pubsub_config {
-    topic = google_pubsub_topic.gcr.id
-  }
-  approval_config {
-    approval_required = true
-  }
-  filename = "build/app-deploy.cloudbuild.yaml"
-  substitutions = {
-    _SERVICE    = google_cloud_run_v2_service.default.name
-    _IMAGE_NAME = "$(body.message.data.tag)"
-    _REGION     = var.region
-  }
-  source_to_build {
-    uri       = google_sourcerepo_repository.default.url
-    ref       = "refs/heads/main"
-    repo_type = "CLOUD_SOURCE_REPOSITORIES"
-  }
 }

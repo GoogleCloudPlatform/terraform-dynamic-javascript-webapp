@@ -8,6 +8,13 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 This changelog is generated automatically based on [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
+## [1.1.6](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/compare/v1.1.5...v1.1.6) (2023-04-26)
+
+
+### Bug Fixes
+
+* adding in random suffix to service account to handle multiple deployment ([932b1a8](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/932b1a89ff5394d37a936d592f6ff0b20bf3c789))
+
 ## [1.1.5](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/compare/v1.1.4...v1.1.5) (2023-04-26)
 
 

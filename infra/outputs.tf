@@ -21,7 +21,7 @@ output "frontend_url" {
 
 output "neos_toc_url" {
   description = "Tutorial URL"
-  value       = "http://console.cloud.google.com?walkthrough_id=solutions-in-console--dynamic-javascript-webapp--dynamic-javascript-webapp_tour"
+  value       = "http://console.cloud.google.com/products/solutions/deployments?walkthrough_id=solutions-in-console--dynamic-javascript-webapp--dynamic-javascript-webapp_tour"
 }
 
 output "run_service_name" {

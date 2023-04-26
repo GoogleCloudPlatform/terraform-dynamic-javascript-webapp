@@ -113,7 +113,7 @@ resource "google_secret_manager_secret_iam_binding" "nextauth_secret" {
 #### Service Account 
 resource "google_service_account" "cloud_run" {
   project      = var.project_id
-  account_id   = "cloud-run-service-account-${random_id.service_account_prefix.hex}"
+  account_id   = "run-service-account-${random_id.service_account_prefix.hex}"
   display_name = "${var.deployment_name} Cloud Run service Service Account."
 }
 

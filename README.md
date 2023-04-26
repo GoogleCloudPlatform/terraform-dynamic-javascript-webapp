@@ -25,9 +25,6 @@ neos_toc_url = "http://console.cloud.google.com?walkthrough_id=panels--sic--dyna
 run_service_name = "dev-journey"
 ```
 
-Note that when you initially open the given IP address (`frontend_url`) from the load balancer, 
-you may have to wait around 5 minutes for your app to appear.
-
 ## Usage
 
 Basic usage of this module is as follows:
@@ -109,6 +106,19 @@ resources of this module:
 
 The [Project Factory module][project-factory-module] can be used to
 provision a project with the necessary APIs enabled.
+
+## FAQ
+
+**Why isn't the app popping up right away after provisioning has completed?**
+
+Upon opening the given IP address (`frontend_url` output) from the load balancer, 
+you may have to wait around 5 minutes for your app to appear.
+
+**Why am I seeing a security warning when I open the app up with the given Cloud Run url after attempting to "login"?**
+
+If you are accessing the app through the Cloud Run given `https` (secure) url, 
+attempting to login will route you to the load balancer IP address (`frontend_url` output) which is currently `http` (not secured).
+We recommend that when you access the app with the given IP address and not through the deployed url given through `Cloud Run`. 
 
 ## Contributing
 

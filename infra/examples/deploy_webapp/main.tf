@@ -15,6 +15,6 @@
  */
 
 module "dynamic_web_app" {
-  source = "../.."
-  project_id  = var.project_id
+  source     = "../.."
+  project_id = var.project_id
 }

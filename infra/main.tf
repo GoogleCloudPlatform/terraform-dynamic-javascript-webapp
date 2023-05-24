@@ -110,7 +110,7 @@ resource "google_secret_manager_secret_iam_binding" "nextauth_secret" {
 }
 
 ### Cloud Run service resources and network endpoint group ###
-#### Service Account 
+#### Service Account
 resource "google_service_account" "cloud_run" {
   project      = var.project_id
   account_id   = "run-service-account-${random_id.service_account_prefix.hex}"
@@ -204,7 +204,7 @@ resource "google_compute_url_map" "default" {
   name            = "${var.deployment_name}-http-load-balancer"
   default_service = google_compute_backend_service.default.id
   host_rule {
-    hosts        = ["${google_compute_global_address.default.address}"]
+    hosts        = [google_compute_global_address.default.address]
     path_matcher = "ip4addr"
   }
   path_matcher {

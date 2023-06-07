@@ -115,6 +115,9 @@ resource "google_service_account" "cloud_run" {
   project      = var.project_id
   account_id   = "run-service-account-${random_id.service_account_prefix.hex}"
   display_name = "${var.deployment_name} Cloud Run service Service Account."
+  depends_on   = [
+    time_sleep.project_services
+  ]
 }
 
 #### Cloud Run IAM

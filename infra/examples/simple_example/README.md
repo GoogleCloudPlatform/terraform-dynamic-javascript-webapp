@@ -1,6 +1,6 @@
 # Simple Example
 
-This example illustrates how to use the `dynamic-python-webapp` module.
+This example illustrates how to use the `dynamic-javascript-webapp` module.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
@@ -11,12 +11,7 @@ This example illustrates how to use the `dynamic-python-webapp` module.
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| client\_job\_name | Client Cloud Run job name |
-| firebase\_url | Firebase URL |
-| server\_service\_name | Server Cloud Run service name |
-| usage | Connection details for the project |
+No output.
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

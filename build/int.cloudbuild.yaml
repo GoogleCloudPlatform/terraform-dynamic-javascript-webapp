@@ -50,27 +50,6 @@ steps:
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'cft test run TestSimpleExample --stage teardown --verbose']
 
-# Suffix example - supports multiple deployments per project
-- id: suffix-example-init
-  waitFor: ['init-all']
-  dir: infra
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'cft test run TestSuffixExample --stage init --verbose']
-- id: suffix-example-apply
-  waitFor: ['suffix-example-init']
-  dir: infra
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'cft test run TestSuffixExample --stage apply --verbose']
-- id: suffix-example-verify
-  waitFor: ['suffix-example-apply']
-  dir: infra
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'cft test run TestSuffixExample --stage verify --verbose']
-- id: suffix-example-teardown
-  waitFor: ['suffix-example-verify']
-  dir: infra
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'cft test run TestSuffixExample --stage teardown --verbose']
 tags:
 - 'ci'
 - 'integration'

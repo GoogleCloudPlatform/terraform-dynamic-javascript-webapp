@@ -8,6 +8,20 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 This changelog is generated automatically based on [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
+## [1.2.0](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/compare/v1.1.6...v1.2.0) (2023-06-22)
+
+
+### Features
+
+* adds metadata generation and fixes lint issues ([#43](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/43)) ([bcae2a1](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/bcae2a13a12d49d517410eadb358459706b8d7db))
+
+
+### Bug Fixes
+
+* add delay to iam service account resource ([#47](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/47)) ([889f21c](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/889f21ccb117966a4f47b05befb8e0d2cb6b926a))
+* neos toc url ([#46](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/46)) ([8a4a24f](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/8a4a24f85d785c2bfbcc5e19c8d07460e4944a08))
+* update neos toc url ([#50](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/50)) ([1ab6c7f](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/1ab6c7f816d0aaffe6e0fd695185e5751b348c3d))
+
 ## [1.1.6](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/compare/v1.1.5...v1.1.6) (2023-04-26)
 
 

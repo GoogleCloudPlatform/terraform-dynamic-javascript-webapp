@@ -162,6 +162,14 @@ resource "google_cloud_run_v2_service" "default" {
   ]
 }
 
+resource "time_sleep" "cloud_run_v2_service" {
+  depends_on = [
+    google_cloud_run_v2_service.default
+  ]
+
+  create_duration = "45s"
+}
+
 data "google_iam_policy" "noauth" {
   binding {
     role = "roles/run.invoker"
@@ -271,6 +279,14 @@ resource "google_compute_global_forwarding_rule" "http" {
   target                = google_compute_target_http_proxy.default.id
   ip_address            = google_compute_global_address.default.id
   labels                = var.labels
+}
+
+resource "time_sleep" "load_balancer_warm_up_time" {
+  depends_on = [
+    google_compute_global_forwarding_rule.http
+  ]
+
+  create_duration = "370s"
 }
 
 ### Firestore ###

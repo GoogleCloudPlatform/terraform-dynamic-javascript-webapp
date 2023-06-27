@@ -97,6 +97,14 @@ resource "google_secret_manager_secret_version" "nextauth_secret" {
   ]
 }
 
+resource "time_sleep" "nextauth_secret" {
+  depends_on = [
+    google_secret_manager_secret_version.nextauth_secret
+  ]
+
+  create_duration = "15s"
+}
+
 resource "google_secret_manager_secret_iam_binding" "nextauth_secret" {
   project   = var.project_id
   secret_id = google_secret_manager_secret.nextauth_secret.secret_id
@@ -158,7 +166,7 @@ resource "google_cloud_run_v2_service" "default" {
   }
   labels = var.labels
   depends_on = [
-    google_secret_manager_secret.nextauth_secret
+    time_sleep.nextauth_secret
   ]
 }
 

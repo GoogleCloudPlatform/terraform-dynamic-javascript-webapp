@@ -29,12 +29,13 @@ resource "random_id" "service_account_prefix" {
 }
 
 resource "google_storage_bucket" "default" {
-  project       = var.project_id
-  name          = "${var.deployment_name}-bucket-${random_id.bucket_prefix.hex}"
-  location      = "US"
-  storage_class = "STANDARD"
-  force_destroy = true
-  labels        = var.labels
+  project                     = var.project_id
+  name                        = "${var.deployment_name}-bucket-${random_id.bucket_prefix.hex}"
+  location                    = "US"
+  storage_class               = "STANDARD"
+  uniform_bucket_level_access = true
+  force_destroy               = true
+  labels                      = var.labels
 }
 
 resource "google_storage_bucket_iam_member" "default" {

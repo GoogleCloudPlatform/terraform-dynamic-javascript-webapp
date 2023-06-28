@@ -98,14 +98,6 @@ resource "google_secret_manager_secret_version" "nextauth_secret" {
   ]
 }
 
-resource "time_sleep" "nextauth_secret" {
-  depends_on = [
-    google_secret_manager_secret_version.nextauth_secret
-  ]
-
-  create_duration = "15s"
-}
-
 resource "google_secret_manager_secret_iam_binding" "nextauth_secret" {
   project   = var.project_id
   secret_id = google_secret_manager_secret.nextauth_secret.secret_id
@@ -167,16 +159,8 @@ resource "google_cloud_run_v2_service" "default" {
   }
   labels = var.labels
   depends_on = [
-    time_sleep.nextauth_secret
+    google_secret_manager_secret.nextauth_secret
   ]
-}
-
-resource "time_sleep" "cloud_run_v2_service" {
-  depends_on = [
-    google_cloud_run_v2_service.default
-  ]
-
-  create_duration = "45s"
 }
 
 data "google_iam_policy" "noauth" {
@@ -288,14 +272,6 @@ resource "google_compute_global_forwarding_rule" "http" {
   target                = google_compute_target_http_proxy.default.id
   ip_address            = google_compute_global_address.default.id
   labels                = var.labels
-}
-
-resource "time_sleep" "load_balancer_warm_up_time" {
-  depends_on = [
-    google_compute_global_forwarding_rule.http
-  ]
-
-  create_duration = "370s"
 }
 
 ### Firestore ###

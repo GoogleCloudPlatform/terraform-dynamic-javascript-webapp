@@ -26,7 +26,7 @@ locals {
     "roles/storage.admin",
     "roles/iam.serviceAccountDeleter",
     "roles/iam.serviceAccountCreator",
-    "roles/firebase.",
+    "roles/firebase.developAdmin",
     "roles/cloudasset.viewer",
     "roles/resourcemanager.projectIamAdmin"
   ]

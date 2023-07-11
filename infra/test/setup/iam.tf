@@ -16,7 +16,19 @@
 
 locals {
   int_required_roles = [
-    "roles/owner"
+    "roles/browser",
+    "roles/compute.loadBalancerAdmin",
+    "roles/compute.networkAdmin",
+    "roles/iam.serviceAccountUser",
+    "roles/run.admin",
+    "roles/secretmanager.admin",
+    "roles/serviceusage.serviceUsageAdmin",
+    "roles/storage.admin",
+    "roles/iam.serviceAccountDeleter",
+    "roles/iam.serviceAccountCreator",
+    "roles/firebase.",
+    "roles/cloudasset.viewer",
+    "roles/resourcemanager.projectIamAdmin"
   ]
 }
 

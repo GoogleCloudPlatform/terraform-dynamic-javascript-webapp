@@ -41,7 +41,8 @@ steps:
 #   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
 #   args: ['/bin/bash', '-c', 'cft test run TestSimpleExample --stage verify --verbose']
 - id: simple-example-teardown
-  waitFor: ['simple-example-verify']
+  # waitFor: ['simple-example-verify']
+  waitFor: ['simple-example-apply']
   dir: infra
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'cft test run TestSimpleExample --stage teardown --verbose']

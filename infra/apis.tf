@@ -43,19 +43,3 @@ resource "time_sleep" "project_services" {
 
   create_duration = "45s"
 }
-
-resource "time_sleep" "cloud_run_v2_service" {
-  depends_on = [
-    google_cloud_run_v2_service.default
-  ]
-
-  create_duration = "45s"
-}
-
-resource "time_sleep" "load_balancer_warm_up_time" {
-  depends_on = [
-    google_compute_global_forwarding_rule.http
-  ]
-
-  create_duration = "370s"
-}

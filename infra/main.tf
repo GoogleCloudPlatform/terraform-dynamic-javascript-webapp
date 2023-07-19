@@ -29,12 +29,13 @@ resource "random_id" "service_account_prefix" {
 }
 
 resource "google_storage_bucket" "default" {
-  project       = var.project_id
-  name          = "${var.deployment_name}-bucket-${random_id.bucket_prefix.hex}"
-  location      = "US"
-  storage_class = "STANDARD"
-  force_destroy = true
-  labels        = var.labels
+  project                     = var.project_id
+  name                        = "${var.deployment_name}-bucket-${random_id.bucket_prefix.hex}"
+  location                    = "US"
+  storage_class               = "STANDARD"
+  uniform_bucket_level_access = true
+  force_destroy               = true
+  labels                      = var.labels
 }
 
 resource "google_storage_bucket_iam_member" "default" {
@@ -44,7 +45,7 @@ resource "google_storage_bucket_iam_member" "default" {
 }
 
 resource "google_storage_bucket_object" "icons" {
-  for_each     = fileset("${path.module}/google-cloud-icons", "*.svg")
+  for_each     = fileset("${path.root}/google-cloud-icons", "*.svg")
   name         = "google-cloud-icons/${each.value}"
   source       = "./google-cloud-icons/${each.value}"
   content_type = "image/svg+xml"
@@ -95,6 +96,14 @@ resource "google_secret_manager_secret_version" "nextauth_secret" {
   depends_on = [
     google_secret_manager_secret.nextauth_secret
   ]
+}
+
+resource "time_sleep" "nextauth_secret" {
+  depends_on = [
+    google_secret_manager_secret_version.nextauth_secret
+  ]
+
+  create_duration = "15s"
 }
 
 resource "google_secret_manager_secret_iam_binding" "nextauth_secret" {
@@ -158,8 +167,16 @@ resource "google_cloud_run_v2_service" "default" {
   }
   labels = var.labels
   depends_on = [
-    google_secret_manager_secret.nextauth_secret
+    time_sleep.nextauth_secret
   ]
+}
+
+resource "time_sleep" "cloud_run_v2_service" {
+  depends_on = [
+    google_cloud_run_v2_service.default
+  ]
+
+  create_duration = "45s"
 }
 
 data "google_iam_policy" "noauth" {
@@ -271,6 +288,14 @@ resource "google_compute_global_forwarding_rule" "http" {
   target                = google_compute_target_http_proxy.default.id
   ip_address            = google_compute_global_address.default.id
   labels                = var.labels
+}
+
+resource "time_sleep" "load_balancer_warm_up_time" {
+  depends_on = [
+    google_compute_global_forwarding_rule.http
+  ]
+
+  create_duration = "370s"
 }
 
 ### Firestore ###

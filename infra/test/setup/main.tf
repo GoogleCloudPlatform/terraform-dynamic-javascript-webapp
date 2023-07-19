@@ -36,6 +36,7 @@ module "project" {
     "serviceusage.googleapis.com",
     "storage.googleapis.com",
     "storage-api.googleapis.com",
-    "serviceusage.googleapis.com"
+    "serviceusage.googleapis.com",
+    "cloudasset.googleapis.com"
   ]
 }

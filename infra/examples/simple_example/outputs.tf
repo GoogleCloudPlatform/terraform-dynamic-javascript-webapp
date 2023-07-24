@@ -13,13 +13,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-output "project_id" {
-  description = "Project ID where solution is deployed."
-  value       = module.dynamic_web_app.project_id
-}
-
-output "run_service_name" {
-  description = "The name of the deployed Cloud Run service."
-  value       = module.dynamic_web_app.run_service_name
-}

@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+output "project_id" {
+  description = "Project ID where solution is deployed."
+  value       = var.project_id
+}
 output "frontend_url" {
   description = "IP address to site. Load balancer expected to take ~5 minutes for it to warm up."
   value       = "http://${google_compute_global_address.default.address}/"

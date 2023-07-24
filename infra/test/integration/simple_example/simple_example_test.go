@@ -31,7 +31,7 @@ func TestSimpleExample(t *testing.T) {
 	example.DefineVerify(func(assert *assert.Assertions) {
 		// example.DefaultVerify(assert) // disables default verify
 
-		projectID := example.GetStringOutput("project_id")
+		projectID := example.GetTFSetupStringOutput("project_id")
 		server_service_name := terraform.OutputRequired(t, example.GetTFOptions(), "run_service_name")
 
 		{

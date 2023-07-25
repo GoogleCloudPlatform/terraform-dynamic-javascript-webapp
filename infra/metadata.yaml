@@ -24,6 +24,7 @@ spec:
     source:
       repo: https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp.git
       sourceType: git
+      dir: /infra
     version: 0.0.1
     actuationTool:
       flavor: Terraform
@@ -34,8 +35,8 @@ spec:
       preDeploy: To deploy this blueprint you must have an active billing account and billing permissions.
   content:
     examples:
-    - name: deploy_webapp
-      location: examples/deploy_webapp
+    - name: simple_example
+      location: examples/simple_example
   interfaces:
     variables:
     - name: deployment_name
@@ -73,8 +74,30 @@ spec:
     roles:
     - level: Project
       roles:
-      - roles/owner
+      - roles/browser
+      - roles/cloudasset.viewer
+      - roles/compute.loadBalancerAdmin
+      - roles/compute.networkAdmin
+      - roles/firebase.developAdmin
+      - roles/iam.serviceAccountCreator
+      - roles/iam.serviceAccountDeleter
+      - roles/iam.serviceAccountUser
+      - roles/resourcemanager.projectIamAdmin
+      - roles/run.admin
+      - roles/secretmanager.admin
+      - roles/serviceusage.serviceUsageAdmin
+      - roles/storage.admin
     services:
+    - cloudasset.googleapis.com
+    - cloudbuild.googleapis.com
     - cloudresourcemanager.googleapis.com
+    - compute.googleapis.com
+    - firestore.googleapis.com
+    - iam.googleapis.com
+    - run.googleapis.com
+    - secretmanager.googleapis.com
+    - serviceusage.googleapis.com
+    - storage.googleapis.com
     - storage-api.googleapis.com
     - serviceusage.googleapis.com
+    - cloudasset.googleapis.com

@@ -319,7 +319,6 @@ resource "google_firestore_database" "database" {
   concurrency_mode            = "PESSIMISTIC"
   app_engine_integration_mode = "DISABLED"
   depends_on = [
-    time_sleep.project_services,
-    time_sleep.load_balancer_warm_up_time
+    time_sleep.project_services
   ]
 }

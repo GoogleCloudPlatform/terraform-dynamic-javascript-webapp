@@ -47,6 +47,10 @@ spec:
       description: Whether or not to enable underlying apis in this solution.
       varType: bool
       defaultValue: true
+    - name: init_firestore
+      description: Whether or not to initialize a Firestore instance.
+      varType: bool
+      defaultValue: true
     - name: initial_run_image
       description: Initial image to deploy to Cloud Run service.
       varType: string

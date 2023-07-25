@@ -14,3 +14,12 @@
  * limitations under the License.
  */
 
+output "run_service_name" {
+  description = "The name of the deployed Cloud Run service."
+  value       = module.dynamic_web_app.run_service_name
+}
+
+output "frontend_url" {
+  description = "IP address to site. Load balancer expected to take ~5 minutes for it to warm up."
+  value       = module.dynamic_web_app.frontend_url
+}

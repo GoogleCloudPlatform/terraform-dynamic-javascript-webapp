@@ -11,7 +11,10 @@ This example illustrates how to use the `dynamic-javascript-webapp` module.
 
 ## Outputs
 
-No output.
+| Name | Description |
+|------|-------------|
+| frontend\_url | IP address to site. Load balancer expected to take ~5 minutes for it to warm up. |
+| run\_service\_name | The name of the deployed Cloud Run service. |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

@@ -122,6 +122,20 @@ func TestSimpleExample(t *testing.T) {
 			assert.NotEmpty(files, "expected files in gcs bucket (%s), found %s", bucketName, files)
 
 		}
+		// Hit the url that verifies Firestore connectivity
+		{
+			fscheckUrl, err := url.JoinPath(frontend, "/api/fscheck")
+			if err != nil {
+				t.Errorf("invalid url for fscheck: %v", err)
+			}
+			resp, err := http.Get(fscheckUrl)
+			if err != nil {
+				t.Errorf("http request to frontend (%s) failed: %v", frontend, err)
+			}
+			if resp.StatusCode != 200 {
+				t.Errorf("unexpected response from frontend(%s): %s", frontend, resp.Status)
+			}
+		}
 	})
 	example.Test()
 }

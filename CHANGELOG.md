@@ -8,6 +8,23 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 This changelog is generated automatically based on [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
+## [1.3.0](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/compare/v1.2.0...v1.3.0) (2023-07-26)
+
+
+### Features
+
+* define verify for int tests ([#64](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/64)) ([2c6bfcc](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/2c6bfcce44b33026707c487b5e9b36ad930a467c))
+* enable integration tests ([#61](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/61)) ([a75938c](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/a75938cb34c4b732a8b6ec5be65b951e72321fb4))
+* **testing:** add verification tests for this blueprint ([#67](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/67)) ([3b5aacf](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/3b5aacf46559134e0fae37ecbf384f22c7adf518))
+
+
+### Bug Fixes
+
+* correct fileset() globbing when this module is not the root. ([#68](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/68)) ([9ecf36a](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/9ecf36a18dd72378687c3ed473ca749236c1c345))
+* enable uniform bucket level access ([#51](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/51)) ([4a4cf2d](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/4a4cf2dd953a9b5063bfd35c5e0dd4ad252ffd6d))
+* pinning google provider &lt; 4.75.0 ([#69](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/69)) ([cf01bae](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/cf01baef81fbbb12aa3814029ab2f228c174bc36))
+* remove db dependency on LB time delay ([#65](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/65)) ([3f71c49](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/3f71c491f1159e3fb5437beafcce938e2f7877e2))
+
 ## [1.2.0](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/compare/v1.1.6...v1.2.0) (2023-06-22)
 
 

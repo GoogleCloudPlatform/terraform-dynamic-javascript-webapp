@@ -34,6 +34,9 @@ spec:
         enable_apis:
           name: enable_apis
           title: Enable Apis
+        init_firestore:
+          name: init_firestore
+          title: Init Firestore
         initial_run_image:
           name: initial_run_image
           title: Initial Run Image

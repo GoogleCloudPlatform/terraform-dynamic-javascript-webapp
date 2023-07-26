@@ -47,6 +47,7 @@ Functional examples are included in the
 |------|-------------|------|---------|:--------:|
 | deployment\_name | Identifier for the deployment. Used in some resource names. | `string` | `"dev-journey"` | no |
 | enable\_apis | Whether or not to enable underlying apis in this solution. | `bool` | `true` | no |
+| init\_firestore | Whether or not to initialize a Firestore instance. | `bool` | `true` | no |
 | initial\_run\_image | Initial image to deploy to Cloud Run service. | `string` | `"gcr.io/hsa-public/developer-journey/app"` | no |
 | labels | A set of key/value label pairs to assign to the resources deployed by this solution. | `map(string)` | `{}` | no |
 | project\_id | The project ID to deploy resources to. | `string` | n/a | yes |

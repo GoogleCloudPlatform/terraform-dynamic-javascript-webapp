@@ -15,6 +15,10 @@
 package multiple_buckets
 
 import (
+	"flag"
+	"fmt"
+	"net/http"
+	"net/url"
 	"strings"
 	"testing"
 
@@ -25,15 +29,28 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+var providedProject = flag.String("override_project", "", "use the specified project, instead of the one from the setup stage. Intended for development use only.")
+
+func getProjectId(tst *tft.TFBlueprintTest) string {
+	if *providedProject != "" {
+		return *providedProject
+	}
+	return tst.GetTFSetupStringOutput("project_id")
+}
+
 func TestSimpleExample(t *testing.T) {
 	example := tft.NewTFBlueprintTest(t)
 
 	example.DefineVerify(func(assert *assert.Assertions) {
-		// example.DefaultVerify(assert) // disables default verify
+		// DefaultVerify does not work correctly with Firestore databases.
+		// example.DefaultVerify(assert)
 
-		projectID := example.GetTFSetupStringOutput("project_id")
+		projectID := getProjectId(example)
+		t.Logf("Using Project: %s\n", projectID)
 		server_service_name := terraform.OutputRequired(t, example.GetTFOptions(), "run_service_name")
 
+		frontend := example.GetStringOutput("frontend_url")
+		t.Logf("frontend url: %s\n", frontend)
 		{
 			// Check that expected Cloud Run service is deployed
 			cloudRunServices := gcloud.Run(t, "run services list", gcloud.WithCommonArgs([]string{"--filter", "metadata.name=" + server_service_name, "--project", projectID, "--format", "json"})).Array()
@@ -45,12 +62,65 @@ func TestSimpleExample(t *testing.T) {
 			t.Log("Cloud Run service is running at", serviceURL)
 		}
 
+		// Check that load balancer endpoint returns 200
 		{
-			// TODO: Check that load balancer endpoint returns 200
+			resp, err := http.Get(frontend)
+			if err != nil {
+				t.Errorf("http request to frontend (%s) failed: %v", frontend, err)
+			}
+			if resp.StatusCode != 200 {
+				t.Errorf("unexpected response from frontend(%s): %s", frontend, resp.Status)
+			}
 		}
-
+		// Check that our loadbalancer is wired correctly.
 		{
-			// TODO: Check Firestore accessible from frontend service
+			feUrl, err := url.Parse(frontend)
+			if err != nil {
+				t.Fatalf("invalid frontend url found: %s", frontend)
+			}
+			lbjson := gcloud.Run(t, "compute url-maps list",
+				gcloud.WithCommonArgs([]string{
+					"--filter", "hostRules.hosts=" + feUrl.Host,
+					"--project", projectID,
+					"--format", "json",
+				}))
+			lbBackendService := lbjson.Get("0.defaultService").String()
+			lbBackendBucket := lbjson.Get("0.pathMatchers.0.pathRules.#(paths.#(=\"/google-cloud-icons/*\")).service").String()
+			fmt.Printf("LB Backend Service: %s\n", lbBackendService)
+			fmt.Printf("LB Backend Bucket: %s\n", lbBackendBucket)
+
+			// Verify Cloud Run backend wiring.
+			// url-map -> backend-service -> NEG -> Cloud Run Service
+			backendJson := gcloud.Run(t, "compute backend-services describe "+lbBackendService,
+				gcloud.WithCommonArgs([]string{
+					"--project", projectID,
+					"--format", "json",
+				}))
+			neg := backendJson.Get("backends.0.group").String()
+			fmt.Println(neg)
+			negJson := gcloud.Run(t, "compute network-endpoint-groups describe "+neg,
+				gcloud.WithCommonArgs([]string{
+					"--project", projectID,
+					"--format", "json",
+				}))
+			assert.Equal(server_service_name, negJson.Get("cloudRun.service").String())
+
+			// Verify GCS bucket wiring.
+			// url-map -> backend-bucket -> gcs bucket name
+			beBucketJson := gcloud.Run(t, "compute backend-buckets describe "+lbBackendBucket,
+				gcloud.WithCommonArgs([]string{
+					"--project", projectID,
+					"--format", "json",
+				}))
+			// test that the bucket has files in it
+			bucketName := beBucketJson.Get("bucketName").String()
+			files := gcloud.Run(t, fmt.Sprintf("alpha storage ls gs://%s/google-cloud-icons/", bucketName),
+				gcloud.WithCommonArgs([]string{
+					"--project", projectID,
+					"--json",
+				})).Array()
+			assert.NotEmpty(files, "expected files in gcs bucket (%s), found %s", bucketName, files)
+
 		}
 	})
 	example.Test()

@@ -45,9 +45,9 @@ resource "google_storage_bucket_iam_member" "default" {
 }
 
 resource "google_storage_bucket_object" "icons" {
-  for_each     = fileset("${path.root}/google-cloud-icons", "*.svg")
-  name         = "google-cloud-icons/${each.value}"
-  source       = "./google-cloud-icons/${each.value}"
+  for_each     = fileset(path.module, "google-cloud-icons/*.svg")
+  name         = each.value
+  source       = "${path.module}/${each.value}"
   content_type = "image/svg+xml"
   bucket       = google_storage_bucket.default.name
 }

@@ -16,7 +16,7 @@
 
 output "frontend_url" {
   description = "IP address to site. Load balancer expected to take ~5 minutes for it to warm up."
-  value       = "http://${google_compute_global_address.default.address}/"
+  value = "${data.http.load_balancer_warm_up.url}"
 }
 
 output "neos_toc_url" {

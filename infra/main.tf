@@ -294,7 +294,7 @@ resource "google_compute_global_forwarding_rule" "http" {
 }
 
 # It may take more than 2 minutes for the newly provisioned load balancer
-# to forward requests to the Cloud Run service.  The following data source 
+# to forward requests to the Cloud Run service.  The following data source
 # allows for terraform apply to finish running when the end-point resolves
 
 data "http" "load_balancer_warm_up" {

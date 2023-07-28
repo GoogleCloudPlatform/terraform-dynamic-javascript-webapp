@@ -299,7 +299,7 @@ resource "google_compute_global_forwarding_rule" "http" {
 
 data "http" "load_balancer_warm_up" {
   url = "http://${google_compute_global_address.default.address}/"
-  # Attempt retry every 20 seconds 17 times, totalling to a 6 minute timeout.
+  # Attempt retry every 20 seconds 17 times, totaling to a 6 minute timeout.
   retry {
     attempts     = 17
     max_delay_ms = 20000

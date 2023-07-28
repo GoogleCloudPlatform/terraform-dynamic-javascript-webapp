@@ -217,9 +217,9 @@ resource "google_compute_region_network_endpoint_group" "default" {
 resource "google_compute_global_address" "default" {
   project = var.project_id
   name    = "${var.deployment_name}-reserved-ip"
-  depends_on = [ 
+  depends_on = [
     time_sleep.project_services
-   ]
+  ]
 }
 
 resource "google_compute_url_map" "default" {

@@ -16,7 +16,7 @@
 
 output "frontend_url" {
   description = "IP address to site. Load balancer expected to take ~5 minutes for it to warm up."
-  value = "${data.http.load_balancer_warm_up.url}"
+  value       = data.http.load_balancer_warm_up.url
 }
 
 output "neos_toc_url" {

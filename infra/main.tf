@@ -293,12 +293,22 @@ resource "google_compute_global_forwarding_rule" "http" {
   labels                = var.labels
 }
 
-resource "time_sleep" "load_balancer_warm_up_time" {
+# It may take more than 2 minutes for the newly provisioned load balancer
+# to forward requests to the Cloud Run service.  The following data source 
+# allows for terraform apply to finish running when the end-point resolves
+
+data "http" "load_balancer_warm_up" {
+  url = "http://${google_compute_global_address.default.address}/"
+  # Attempt retry every 30 seconds 11 times, totalling to a 6 minute timeout.
+  retry {
+    attempts     = 11
+    max_delay_ms = 30000
+    min_delay_ms = 30000
+  }
+  # Begin trying after forwarding rule is created.
   depends_on = [
     google_compute_global_forwarding_rule.http
   ]
-
-  create_duration = "150s"
 }
 
 ### Firestore ###

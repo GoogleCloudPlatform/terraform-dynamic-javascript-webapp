@@ -295,7 +295,7 @@ resource "time_sleep" "load_balancer_warm_up_time" {
     google_compute_global_forwarding_rule.http
   ]
 
-  create_duration = "120s"
+  create_duration = "150s"
 }
 
 ### Firestore ###

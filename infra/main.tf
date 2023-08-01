@@ -305,8 +305,12 @@ data "http" "load_balancer_warm_up" {
     max_delay_ms = 20000
     min_delay_ms = 20000
   }
-  # Begin trying after forwarding rule is created.
+  # Begin trying after load balancer resources are created.
   depends_on = [
+    google_compute_global_address.default,
+    google_compute_url_map.default,
+    google_compute_backend_service.default,
+    google_compute_target_http_proxy.default,
     google_compute_global_forwarding_rule.http
   ]
 }

@@ -49,6 +49,12 @@ variable "region" {
   description = "Google Cloud region"
 }
 
+variable "zone" {
+  type        = string
+  default     = "us-central1-a"
+  description = "Google Cloud region"
+}
+
 variable "init_firestore" {
   type        = bool
   description = "Whether or not to initialize a Firestore instance."

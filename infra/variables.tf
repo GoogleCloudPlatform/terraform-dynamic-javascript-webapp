@@ -52,7 +52,7 @@ variable "region" {
 variable "zone" {
   type        = string
   default     = "us-central1-a"
-  description = "Google Cloud region"
+  description = "Google Cloud zone"
 }
 
 variable "init_firestore" {

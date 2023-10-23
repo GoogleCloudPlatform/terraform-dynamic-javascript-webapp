@@ -217,6 +217,9 @@ resource "google_compute_region_network_endpoint_group" "default" {
 resource "google_compute_global_address" "default" {
   project = var.project_id
   name    = "${var.deployment_name}-reserved-ip"
+  depends_on = [
+    time_sleep.project_services
+  ]
 }
 
 resource "google_compute_url_map" "default" {
@@ -290,12 +293,26 @@ resource "google_compute_global_forwarding_rule" "http" {
   labels                = var.labels
 }
 
-resource "time_sleep" "load_balancer_warm_up_time" {
+# It may take more than 2 minutes for the newly provisioned load balancer
+# to forward requests to the Cloud Run service.  The following data source
+# allows for terraform apply to finish running when the end-point resolves
+
+data "http" "load_balancer_warm_up" {
+  url = "http://${google_compute_global_address.default.address}/"
+  # Attempt retry every 20 seconds 17 times, totaling to a 6 minute timeout.
+  retry {
+    attempts     = 17
+    max_delay_ms = 20000
+    min_delay_ms = 20000
+  }
+  # Begin trying after load balancer resources are created.
   depends_on = [
+    google_compute_global_address.default,
+    google_compute_url_map.default,
+    google_compute_backend_service.default,
+    google_compute_target_http_proxy.default,
     google_compute_global_forwarding_rule.http
   ]
-
-  create_duration = "370s"
 }
 
 ### Firestore ###

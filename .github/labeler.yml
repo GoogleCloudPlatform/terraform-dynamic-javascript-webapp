@@ -16,14 +16,12 @@
 
 # component labels are used in release notes.
 'component: app':
-- 'app/*'
-- 'app/**/*'
-'component: assets':
-- 'assets/*'
-- 'assets/**/*'
-'component: build':
-- 'build/*'
-- 'build/**/*'
-'component: infra':
-- 'infra/*'
-- 'infra/**/*'
+- 'src/*'
+- 'src/**/*'
+'component: terraform':
+- 'terraform/*'
+- 'terraform/**/*'
+- 'Dockerfile'
+'component: docs':
+- 'docs/*'
+- 'docs/**/*'

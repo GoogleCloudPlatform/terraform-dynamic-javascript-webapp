@@ -1,3 +1,5 @@
+
+
 # terraform-dynamic-javascript-webapp
 
 ## Description
@@ -133,3 +135,10 @@ information on contributing to this module.
 ## Security Disclosures
 
 Please see our [security disclosure process](./SECURITY.md).
+
+gcloud auth application-default login 
+
+
+
+./helpers/setup-sa.sh  -o ""  -p "ringed-tuner-410909" -b "0156AF-2CD7E8-ECADDF" -n "test"
+

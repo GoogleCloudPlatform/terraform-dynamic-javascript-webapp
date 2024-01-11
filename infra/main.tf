@@ -1,21 +1,6 @@
-/**
- * Copyright 2023 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 locals {
   nextauth_url      = "http://${google_compute_global_address.default.address}"
-  firestore_enabled = length(data.google_cloud_asset_resources_search_all.firestore_database.results) == 1 ? true : false
+  #firestore_enabled = length(data.google_cloud_asset_resources_search_all.firestore_database.results) == 1 ? true : false
 }
 
 ### GCS bucket ###
@@ -318,17 +303,17 @@ data "http" "load_balancer_warm_up" {
 ### Firestore ###
 
 # The following checks Asset Inventory for an existing Firestore database
-data "google_cloud_asset_resources_search_all" "firestore_database" {
-  provider = google-beta
-  scope    = "projects/${var.project_id}"
-  asset_types = [
-    "firestore.googleapis.com/Database"
-  ]
-}
+#data "google_cloud_asset_resources_search_all" "firestore_database" {
+#  provider = google-beta
+#  scope    = "projects/${var.project_id}"
+#  asset_types = [
+#    "firestore.googleapis.com/Database"
+#  ]
+#}
 
 # If a Firestore database exists on the project, Terraform will skip this resource
 resource "google_firestore_database" "database" {
-  count                       = var.init_firestore && !local.firestore_enabled ? 1 : 0
+  count                       = var.init_firestore  ? 1 : 0
   project                     = var.project_id
   name                        = "(default)"
   location_id                 = "nam5"

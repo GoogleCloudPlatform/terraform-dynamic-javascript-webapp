@@ -92,8 +92,8 @@ spec:
       - roles/serviceusage.serviceUsageAdmin
       - roles/storage.admin
     services:
-    - cloudasset.googleapis.com
     - cloudbuild.googleapis.com
+    - cloudasset.googleapis.com
     - cloudresourcemanager.googleapis.com
     - compute.googleapis.com
     - firestore.googleapis.com
@@ -104,4 +104,3 @@ spec:
     - storage.googleapis.com
     - storage-api.googleapis.com
     - serviceusage.googleapis.com
-    - cloudasset.googleapis.com

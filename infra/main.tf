@@ -82,7 +82,7 @@ resource "google_secret_manager_secret" "nextauth_secret" {
   project   = var.project_id
   secret_id = "${var.deployment_name}-nextauth-secret"
   replication {
-    automatic = true
+    auto {}
   }
   labels = var.labels
   depends_on = [

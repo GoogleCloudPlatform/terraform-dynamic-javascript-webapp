@@ -15,15 +15,23 @@
 # Labeler assigns GitHub labels to PRs based on changed files.
 
 # component labels are used in release notes.
-'component: app':
-- 'app/*'
-- 'app/**/*'
-'component: assets':
-- 'assets/*'
-- 'assets/**/*'
-'component: build':
-- 'build/*'
-- 'build/**/*'
-'component: infra':
-- 'infra/*'
-- 'infra/**/*'
+"component: app":
+  - changed-files:
+      - any-glob-to-all-files:
+          - "app/*"
+          - "app/**/*"
+"component: assets":
+  - changed-files:
+      - any-glob-to-all-files:
+          - "assets/*"
+          - "assets/**/*"
+"component: build":
+  - changed-files:
+      - any-glob-to-all-files:
+          - "build/*"
+          - "build/**/*"
+"component: infra":
+  - changed-files:
+      - any-glob-to-all-files:
+          - "infra/*"
+          - "infra/**/*"

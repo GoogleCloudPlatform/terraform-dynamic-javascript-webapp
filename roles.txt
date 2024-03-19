@@ -1,0 +1,15 @@
+roles/browser
+roles/cloudasset.viewer
+roles/compute.loadBalancerAdmin
+roles/compute.networkAdmin
+roles/config.agent
+roles/firebase.developAdmin
+roles/iam.serviceAccountAdmin
+roles/iam.serviceAccountCreator
+roles/iam.serviceAccountDeleter
+roles/iam.serviceAccountUser
+roles/resourcemanager.projectIamAdmin
+roles/run.admin
+roles/secretmanager.admin
+roles/serviceusage.serviceUsageAdmin
+roles/storage.admin

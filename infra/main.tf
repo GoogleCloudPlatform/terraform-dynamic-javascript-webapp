@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 locals {
-  nextauth_url      = "http://${google_compute_global_address.default.address}"
+  nextauth_url                   = "http://${google_compute_global_address.default.address}"
   has_default_firestore_database = length(data.google_cloud_asset_resources_search_all.default_firestore_database.results) > 0 ? true : false
 }
 
 # Make a GET request to check for Firestore databases named "(default)"
 data "google_cloud_asset_resources_search_all" "default_firestore_database" {
-  query = "name=\"projects/${var.project_id}/databases/(default)\""  
+  query = "name=\"projects/${var.project_id}/databases/(default)\""
 }
 
 ### GCS bucket ###

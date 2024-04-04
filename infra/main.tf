@@ -18,11 +18,6 @@ locals {
   has_default_firestore_database = length(data.google_cloud_asset_resources_search_all.default_firestore_database.results) > 0 ? true : false
 }
 
-# Make a GET request to check for Firestore databases named "(default)"
-data "google_cloud_asset_resources_search_all" "default_firestore_database" {
-  query = "name=\"projects/${var.project_id}/databases/(default)\""
-}
-
 ### GCS bucket ###
 
 resource "random_id" "bucket_prefix" {
@@ -323,9 +318,10 @@ data "http" "load_balancer_warm_up" {
 ### Firestore ###
 
 # The following checks Asset Inventory for an existing Firestore database
-data "google_cloud_asset_resources_search_all" "firestore_database" {
+data "google_cloud_asset_resources_search_all" "default_firestore_database" {
   provider = google-beta
   scope    = "projects/${var.project_id}"
+  query    = "name=\"projects/${var.project_id}/databases/(default)\""
   asset_types = [
     "firestore.googleapis.com/Database"
   ]

@@ -321,6 +321,7 @@ data "http" "load_balancer_warm_up" {
 data "google_cloud_asset_resources_search_all" "default_firestore_database" {
   provider = google-beta
   scope    = "projects/${var.project_id}"
+  query    = "displayName:(default)"
   asset_types = [
     "firestore.googleapis.com/Database"
   ]

@@ -333,7 +333,7 @@ data "google_cloud_asset_resources_search_all" "firestore_database" {
 
 # If a Firestore database exists on the project, Terraform will skip this resource
 resource "google_firestore_database" "database" {
-  count                       = var.init_firestore && !local.firestore_enabled ? 1 : 0
+  count                       = var.init_firestore && !local.has_default_firestore_database ? 1 : 0
   project                     = var.project_id
   name                        = "(default)"
   location_id                 = "nam5"

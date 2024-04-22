@@ -8,6 +8,28 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 This changelog is generated automatically based on [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
+## [1.4.0](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/compare/v1.3.0...v1.4.0) (2024-04-22)
+
+
+### Features
+
+* add support for make it mine and deploy via cloudbuild trigger ([#119](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/119)) ([ec339a1](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/ec339a1832487ce2b6ec7adc4ec525a6b5aac846))
+* call firestore check endpoint in verify test ([#70](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/70)) ([542825a](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/542825a6f3674c50c87c2aac3f4b6b65d44be6c6))
+* **deps:** Update Terraform google to &gt;= 3.53, &lt; 4.84.1 ([#95](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/95)) ([392cf17](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/392cf17018af1bd540b0821c37f7c66876080bab))
+* update Google provider to v5, fix deprecations ([#102](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/102)) ([8a42b48](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/8a42b489625587f5d64b8283ba8e5d37732b2e7f))
+
+
+### Bug Fixes
+
+* Check for default Firestore database ([#124](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/124)) ([757b4c7](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/757b4c7b4f6217ca1766b5eb74811f8bd2736b53))
+* **deps:** Update module github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test to v0.12.0 ([#109](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/109)) ([fff2912](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/fff29123a4a453df9541e236137a72b38016fc91))
+* **deps:** Update module github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test to v0.12.1 ([#110](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/110)) ([dbdcc4d](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/dbdcc4daee54a7e14aa7c8e7cfe210ecb128eb0e))
+* **deps:** Update module github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test to v0.13.0 ([#111](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/111)) ([991e35f](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/991e35ffc980401bbca2428b3bb51b2922e19c0f))
+* reduce warm up time ([#72](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/72)) ([e7d7677](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/e7d7677121db55bbf3797a19ea53128c6fd8361a))
+* remove duplicate renovate config ([#92](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/92)) ([c1103c2](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/c1103c266a5ad23f4b3fa6ab955d5f42278fdeac))
+* Update actions/labeler config to v5 ([#101](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/101)) ([ffee447](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/ffee447a940f35578ad19be76120028a10f1188a))
+* Update CODEOWNERS ([#82](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/82)) ([30b9471](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/30b9471ade6c3aa0b86f435b533e171b62b69bd6))
+
 ## [1.3.0](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/compare/v1.2.0...v1.3.0) (2023-07-26)
 
 

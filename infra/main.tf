@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 locals {
-  nextauth_url      = "http://${google_compute_global_address.default.address}"
-  firestore_enabled = length(data.google_cloud_asset_resources_search_all.firestore_database.results) == 1 ? true : false
+  nextauth_url                   = "http://${google_compute_global_address.default.address}"
+  has_default_firestore_database = length(data.google_cloud_asset_resources_search_all.default_firestore_database.results) > 0 ? true : false
 }
 
 ### GCS bucket ###
@@ -318,9 +318,10 @@ data "http" "load_balancer_warm_up" {
 ### Firestore ###
 
 # The following checks Asset Inventory for an existing Firestore database
-data "google_cloud_asset_resources_search_all" "firestore_database" {
+data "google_cloud_asset_resources_search_all" "default_firestore_database" {
   provider = google-beta
   scope    = "projects/${var.project_id}"
+  query    = "displayName:(default)"
   asset_types = [
     "firestore.googleapis.com/Database"
   ]
@@ -328,7 +329,7 @@ data "google_cloud_asset_resources_search_all" "firestore_database" {
 
 # If a Firestore database exists on the project, Terraform will skip this resource
 resource "google_firestore_database" "database" {
-  count                       = var.init_firestore && !local.firestore_enabled ? 1 : 0
+  count                       = var.init_firestore && !local.has_default_firestore_database ? 1 : 0
   project                     = var.project_id
   name                        = "(default)"
   location_id                 = "nam5"

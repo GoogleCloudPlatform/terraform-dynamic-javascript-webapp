@@ -18,7 +18,7 @@
 # We need to make sure the JSS doesn't produce an error similar to
 # "Database already exists. Please use another database_id"
 resource "google_firestore_database" "database" {
-  project                     = module.project.project_id
+  project                     = var.project_id
   name                        = "(default)"
   location_id                 = "nam5"
   type                        = "FIRESTORE_NATIVE"

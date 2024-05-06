@@ -332,9 +332,9 @@ data "google_cloud_asset_resources_search_all" "default_firestore_database" {
 # then skip this resource ("default" Firestore database).
 resource "google_firestore_database" "database" {
   count = (
-    var.init_firestore                            # Is this Terraform module being asked to create it?
-    && (!local.has_default_firestore_database     # Don't create if the default Firestore DB exists...
-    || var.google_firestore_database.database[0]) # ... unless that default Firestore DB was created by this Terraform module.
+    var.init_firestore                        # Is this Terraform module being asked to create it?
+    && (!local.has_default_firestore_database # Don't create if the default Firestore DB exists...
+    || google_firestore_database.database[0]) # ... unless that default Firestore DB was created by this Terraform module.
   ) ? 1 : 0
   project                     = var.project_id
   name                        = "(default)"

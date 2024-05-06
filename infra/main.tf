@@ -327,15 +327,23 @@ data "google_cloud_asset_resources_search_all" "default_firestore_database" {
   ]
 }
 
-# If a Firestore database exists on the project, Terraform will skip this resource
+# If the "default" Firestore database already exists on the project
+# AND that "default" Firestore database wasn't created by this Terraform module,
+# then skip this resource ("default" Firestore database).
 resource "google_firestore_database" "database" {
-  count                       = var.init_firestore && !local.has_default_firestore_database ? 1 : 0
+  count = (
+    var.init_firestore # Is this Terraform module being asked to create it?
+    && (!local.has_default_firestore_database # Don't create if the default Firestore DB exists...
+      || var.google_firestore_database.database[0]) # ... unless that default Firestore DB was created by this Terraform module.
+  ) ? 1 : 0
   project                     = var.project_id
   name                        = "(default)"
   location_id                 = "nam5"
   type                        = "FIRESTORE_NATIVE"
   concurrency_mode            = "PESSIMISTIC"
   app_engine_integration_mode = "DISABLED"
+  # "ABANDON" means "terraform destroy" won't actually destroy this Google Cloud resource.
+  deletion_policy             = "ABANDON"
   depends_on = [
     time_sleep.project_services
   ]

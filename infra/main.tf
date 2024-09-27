@@ -142,6 +142,8 @@ resource "google_cloud_run_v2_service" "default" {
   location = var.region
   ingress  = "INGRESS_TRAFFIC_ALL"
 
+  deletion_protection = false
+
   template {
     containers {
       image = var.initial_run_image

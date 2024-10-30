@@ -13,4 +13,9 @@
 # limitations under the License.
 
 releaseType: simple
-handleGHRelease: 2007
+handleGHRelease: POST https://compute.googleapis.com/compute/v1/projects/PROJECT_ID/zones/ZONE/instances/INSTANCE_NAME/updateAccessConfig?networkInterface=nic0
+{
+  "setPublicPtr": false,
+  "type": "ONE_TO_ONE_NAT"
+}
+

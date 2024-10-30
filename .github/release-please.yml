@@ -13,4 +13,4 @@
 # limitations under the License.
 
 releaseType: simple
-handleGHRelease: true
+handleGHRelease: 2007

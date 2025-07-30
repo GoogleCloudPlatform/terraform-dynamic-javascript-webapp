@@ -8,6 +8,19 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 This changelog is generated automatically based on [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
+## [1.5.0](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/compare/v1.4.0...v1.5.0) (2025-07-28)
+
+
+### Features
+
+* **deps:** Update Terraform Google Provider to v6 (major) ([#149](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/149)) ([d2fe7cb](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/d2fe7cb2772430ff44ebce573799eaededcfb339))
+* Set Terraform required_version to &gt;= 1.5 ([#152](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/152)) ([cba89fb](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/cba89fba17f2abd371f73536278462b1e043b4cc))
+
+
+### Bug Fixes
+
+* set deletion_protection on cloud run ([#158](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/issues/158)) ([9726ef0](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/commit/9726ef095d03a7bdada4a90258da384ab7194740))
+
 ## [1.4.0](https://github.com/GoogleCloudPlatform/terraform-dynamic-javascript-webapp/compare/v1.3.0...v1.4.0) (2024-04-22)
 
 
